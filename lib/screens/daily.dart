@@ -276,7 +276,7 @@ class _DailyState extends State<Daily> {
       decoration: BoxDecoration(
         border: Border.all(width: 3),
         borderRadius: BorderRadius.circular(10),
-        color: Colors.blueGrey.shade100,
+        color: Color(0xff017AFE ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

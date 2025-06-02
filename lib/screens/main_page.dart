@@ -150,7 +150,7 @@ class _MainPageState extends State<MainPage> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blueGrey.shade100,
+        backgroundColor:  Color(0xff9BE9FE),
         showSelectedLabels: false,
         showUnselectedLabels: false,
         currentIndex: currentIndex,

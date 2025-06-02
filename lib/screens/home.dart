@@ -196,7 +196,7 @@ class _HomeState extends State<Home> {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 3),
           borderRadius: BorderRadius.circular(10),
-          color: Colors.blueGrey.shade100,
+          color: Color(0xff017AFE ),
         ),
         child: Center(child: Text("Search", style: TextStyle(fontSize: 25))),
       ),
@@ -213,7 +213,7 @@ class _HomeState extends State<Home> {
           controller: _controller,
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.blueGrey.shade100,
+            fillColor: Color(0xff017AFE ),
             labelText: "Search City",
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 3),
