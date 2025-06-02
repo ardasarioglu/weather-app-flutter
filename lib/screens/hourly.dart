@@ -178,86 +178,182 @@ class _HourlyState extends State<Hourly> {
     if (widget.hourlyWeathers != null) {
       if (widget.hourlyWeathers != null) {
         return Scaffold(
-          body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                SizedBox(height: 25),
-                Text(
-                  "$month1 $day1",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Divider(thickness: 3, color: Colors.black),
-                Column(
-                  children: List.generate(list1!.length, (index) {
-                    return Column(
-                      children: [
-                        ExpansionTile(
-                          shape: Border(),
-                          title: Text("$index:00"),
+          body: Stack(
+            children: [
+              Positioned.fill(child: Image.asset("assets/images/background.png", fit: BoxFit.cover,)),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    SizedBox(height: 35),
+                    Text(
+                      "$month1 $day1",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Divider(thickness: 3, color: Colors.black),
+                    Column(
+                      children: List.generate(list1!.length, (index) {
+                        return Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            ExpansionTile(
+                              shape: Border(),
+                              title: Text("$index:00"),
                               children: [
-                                Column(
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.asset(
-                                      getWeatherImagePath(
-                                        widget
-                                            .hourlyWeathers![index]
-                                            .weather_code,
-                                      ),
-                                      width: 100,
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                          getWeatherImagePath(
+                                            widget
+                                                .hourlyWeathers![index]
+                                                .weather_code,
+                                          ),
+                                          width: 100,
+                                        ),
+                                        Text(
+                                          getWeatherDescription(
+                                            widget
+                                                .hourlyWeathers![index]
+                                                .weather_code,
+                                          ),
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      getWeatherDescription(
-                                        widget
-                                            .hourlyWeathers![index]
-                                            .weather_code,
-                                      ),
-                                      style: TextStyle(fontSize: 20),
+              
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${widget.hourlyWeathers![index].temperature_2m} °C",
+                                          style: TextStyle(fontSize: 25),
+                                        ),
+                                        Text(
+                                          "Apparent Temperature: ${widget.hourlyWeathers![index].apparent_temperature} °C",
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Text(
+                                          "Wind Speed: ${widget.hourlyWeathers![index].wind_speed_10m} m/s",
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Text(
+                                          "Precipitation Probability: ${widget.hourlyWeathers![index].precipitation_probability} %",
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Wind Direction: ",
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                            Transform.rotate(
+                                              angle:
+                                                  (widget
+                                                          .hourlyWeathers![index]
+                                                          .wind_direction_10m *
+                                                      3.14 /
+                                                      180) -
+                                                  (90 * 3.14 / 180),
+                                              child: Image.asset(
+                                                "assets/images/arrow.png",
+                                                width: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-
-                                Column(
+                              ],
+                            ),
+                            
+                          ],
+                        );
+                      }),
+                    ),
+                    Text(
+                      "$month2 $day2",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10,),
+                    Divider(thickness: 3, color: Colors.black,),
+                    Column(
+                      children: List.generate(list2!.length, (index) {
+                        index += 24;
+                        return Column(
+                          children: [
+                            ExpansionTile(
+                              shape: Border(),
+                              title: Text("${index-24}:00"),
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "${widget.hourlyWeathers![index].temperature_2m} °C",
-                                      style: TextStyle(fontSize: 25),
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                          getWeatherImagePath(
+                                            widget
+                                                .hourlyWeathers![index]
+                                                .weather_code,
+                                          ),
+                                          width: 100,
+                                        ),
+                                        Text(
+                                          getWeatherDescription(
+                                            widget
+                                                .hourlyWeathers![index]
+                                                .weather_code,
+                                          ),
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      "Apparent Temperature: ${widget.hourlyWeathers![index].apparent_temperature} °C",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                      "Wind Speed: ${widget.hourlyWeathers![index].wind_speed_10m} m/s",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                      "Precipitation Probability: ${widget.hourlyWeathers![index].precipitation_probability} %",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Row(
+              
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Wind Direction: ",
+                                          "${widget.hourlyWeathers![index].temperature_2m} °C",
+                                          style: TextStyle(fontSize: 25),
+                                        ),
+                                        Text(
+                                          "Apparent Temperature: ${widget.hourlyWeathers![index].apparent_temperature} °C",
                                           style: TextStyle(fontSize: 15),
                                         ),
-                                        Transform.rotate(
-                                          angle:
-                                              (widget
-                                                      .hourlyWeathers![index]
-                                                      .wind_direction_10m *
-                                                  3.14 /
-                                                  180) -
-                                              (90 * 3.14 / 180),
-                                          child: Image.asset(
-                                            "assets/images/arrow.png",
-                                            width: 15,
-                                          ),
+                                        Text(
+                                          "Wind Speed: ${widget.hourlyWeathers![index].wind_speed_10m} m/s",
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Text(
+                                          "Precipitation Probability: ${widget.hourlyWeathers![index].precipitation_probability} %",
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Wind Direction: ",
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                            Transform.rotate(
+                                              angle:
+                                                  (widget
+                                                          .hourlyWeathers![index]
+                                                          .wind_direction_10m *
+                                                      3.14 /
+                                                      180) -
+                                                  (90 * 3.14 / 180),
+                                              child: Image.asset(
+                                                "assets/images/arrow.png",
+                                                width: 15,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -266,89 +362,85 @@ class _HourlyState extends State<Hourly> {
                               ],
                             ),
                           ],
-                        ),
-                        Divider(thickness: 2),
-                      ],
-                    );
-                  }),
-                ),
-                Text(
-                  "$month2 $day2",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10,),
-                Divider(thickness: 3, color: Colors.black,),
-                Column(
-                  children: List.generate(list2!.length, (index) {
-                    index += 24;
-                    return Column(
-                      children: [
-                        ExpansionTile(
-                          shape: Border(),
-                          title: Text("${index-24}:00"),
+                        );
+                      }),
+                    ),
+                    Text("$month3 $day3", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    SizedBox(height: 10,),
+                    Divider(thickness: 3, color: Colors.black,),
+                    Column(
+                      children: List.generate(list2!.length, (index) {
+                        index += 48;
+                        return Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            ExpansionTile(
+                              shape: Border(),
+                              title: Text("${index-48}:00"),
                               children: [
-                                Column(
-                                  children: [
-                                    Image.asset(
-                                      getWeatherImagePath(
-                                        widget
-                                            .hourlyWeathers![index]
-                                            .weather_code,
-                                      ),
-                                      width: 100,
-                                    ),
-                                    Text(
-                                      getWeatherDescription(
-                                        widget
-                                            .hourlyWeathers![index]
-                                            .weather_code,
-                                      ),
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ],
-                                ),
-
-                                Column(
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "${widget.hourlyWeathers![index].temperature_2m} °C",
-                                      style: TextStyle(fontSize: 25),
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                          getWeatherImagePath(
+                                            widget
+                                                .hourlyWeathers![index]
+                                                .weather_code,
+                                          ),
+                                          width: 100,
+                                        ),
+                                        Text(
+                                          getWeatherDescription(
+                                            widget
+                                                .hourlyWeathers![index]
+                                                .weather_code,
+                                          ),
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      "Apparent Temperature: ${widget.hourlyWeathers![index].apparent_temperature} °C",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                      "Wind Speed: ${widget.hourlyWeathers![index].wind_speed_10m} m/s",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                      "Precipitation Probability: ${widget.hourlyWeathers![index].precipitation_probability} %",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Row(
+              
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Wind Direction: ",
+                                          "${widget.hourlyWeathers![index].temperature_2m} °C",
+                                          style: TextStyle(fontSize: 25),
+                                        ),
+                                        Text(
+                                          "Apparent Temperature: ${widget.hourlyWeathers![index].apparent_temperature} °C",
                                           style: TextStyle(fontSize: 15),
                                         ),
-                                        Transform.rotate(
-                                          angle:
-                                              (widget
-                                                      .hourlyWeathers![index]
-                                                      .wind_direction_10m *
-                                                  3.14 /
-                                                  180) -
-                                              (90 * 3.14 / 180),
-                                          child: Image.asset(
-                                            "assets/images/arrow.png",
-                                            width: 15,
-                                          ),
+                                        Text(
+                                          "Wind Speed: ${widget.hourlyWeathers![index].wind_speed_10m} m/s",
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Text(
+                                          "Precipitation Probability: ${widget.hourlyWeathers![index].precipitation_probability} %",
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Wind Direction: ",
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                            Transform.rotate(
+                                              angle:
+                                                  (widget
+                                                          .hourlyWeathers![index]
+                                                          .wind_direction_10m *
+                                                      3.14 /
+                                                      180) -
+                                                  (90 * 3.14 / 180),
+                                              child: Image.asset(
+                                                "assets/images/arrow.png",
+                                                width: 15,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -357,102 +449,13 @@ class _HourlyState extends State<Hourly> {
                               ],
                             ),
                           ],
-                        ),
-                        Divider(thickness: 2),
-                      ],
-                    );
-                  }),
+                        );
+                      }),
+                    ),
+                  ],
                 ),
-                Text("$month3 $day3", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                SizedBox(height: 10,),
-                Divider(thickness: 3, color: Colors.black,),
-                Column(
-                  children: List.generate(list2!.length, (index) {
-                    index += 48;
-                    return Column(
-                      children: [
-                        ExpansionTile(
-                          shape: Border(),
-                          title: Text("${index-48}:00"),
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Column(
-                                  children: [
-                                    Image.asset(
-                                      getWeatherImagePath(
-                                        widget
-                                            .hourlyWeathers![index]
-                                            .weather_code,
-                                      ),
-                                      width: 100,
-                                    ),
-                                    Text(
-                                      getWeatherDescription(
-                                        widget
-                                            .hourlyWeathers![index]
-                                            .weather_code,
-                                      ),
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ],
-                                ),
-
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${widget.hourlyWeathers![index].temperature_2m} °C",
-                                      style: TextStyle(fontSize: 25),
-                                    ),
-                                    Text(
-                                      "Apparent Temperature: ${widget.hourlyWeathers![index].apparent_temperature} °C",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                      "Wind Speed: ${widget.hourlyWeathers![index].wind_speed_10m} m/s",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                      "Precipitation Probability: ${widget.hourlyWeathers![index].precipitation_probability} %",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Wind Direction: ",
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        Transform.rotate(
-                                          angle:
-                                              (widget
-                                                      .hourlyWeathers![index]
-                                                      .wind_direction_10m *
-                                                  3.14 /
-                                                  180) -
-                                              (90 * 3.14 / 180),
-                                          child: Image.asset(
-                                            "assets/images/arrow.png",
-                                            width: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Divider(thickness: 2),
-                      ],
-                    );
-                  }),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       }

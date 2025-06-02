@@ -132,21 +132,28 @@ class _DailyState extends State<Daily> {
     if (widget.dailyWeathers != null) {
       weather = weather!;
       return Scaffold(
-        body: Column(
+        body: Stack(
           children: [
-            SizedBox(height: 25),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(weather.length, (index) {
-                  return GestureDetector(
-                    onTap: () => changeScreen(weather![index]),
-                    child: topButtons(weather![index].time),
-                  );
-                }),
-              ),
+
+            Positioned.fill(child: Image.asset("assets/images/background.png", fit: BoxFit.cover,)),
+
+            Column(
+              children: [
+                SizedBox(height: 35),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(weather.length, (index) {
+                      return GestureDetector(
+                        onTap: () => changeScreen(weather![index]),
+                        child: topButtons(weather![index].time),
+                      );
+                    }),
+                  ),
+                ),
+                mainScreen(),
+              ],
             ),
-            mainScreen(),
           ],
         ),
       );

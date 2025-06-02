@@ -65,63 +65,108 @@ class _HomeState extends State<Home> {
 
     if (weather != null) {
       return Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: Stack(
           children: [
-            SizedBox(height: 25),
-            Row(children: [textField(), searchButton()]),
-            SizedBox(height: 40,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [ 
-              Image.asset(getWeatherImagePath(weather.weather_code),width: 150,),
-              Text("${weather.apparent_temperature}°C", style: TextStyle(fontSize: 70),)
-              ]
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(getWeatherDescription(weather.weather_code), style: TextStyle(fontSize: 50),),
-            ),
-            Row(
+            Positioned.fill(
+              child: Image.asset("assets/images/background.png",fit: BoxFit.cover,)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(width: 15,),
-                Text("Apparent Temperature", style: TextStyle(fontSize: 20),),
-                SizedBox(width: 30,),
-                Text("Wind Speed", style: TextStyle(fontSize: 20),)
+                SizedBox(height: 35),
+                Row(children: [textField(), searchButton()]),
+                SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      getWeatherImagePath(weather.weather_code),
+                      width: 150,
+                    ),
+                    Text(
+                      "${weather.apparent_temperature}°C",
+                      style: TextStyle(fontSize: 70),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    getWeatherDescription(weather.weather_code),
+                    style: TextStyle(fontSize: 50),
+                  ),
+                ),
+                Row(
+                  children: [
+                    SizedBox(width: 15),
+                    Text(
+                      "Apparent Temperature",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(width: 30),
+                    Text("Wind Speed", style: TextStyle(fontSize: 20)),
+                  ],
+                ),
+
+                Row(
+                  children: [
+                    SizedBox(width: 15),
+                    Text(
+                      "${weather.apparent_temperature}°C",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 174),
+                    Text(
+                      "${weather.wind_speed_10m} m/s",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
+                Divider(
+                  thickness: 3,
+                  color: Colors.black,
+                  indent: 15,
+                  endIndent: 15,
+                ),
+
+                Row(
+                  children: [
+                    SizedBox(width: 15),
+                    Text(
+                      "Precipitation Probability",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(width: 18),
+                    Text("Wind Direction", style: TextStyle(fontSize: 20)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    SizedBox(width: 15),
+                    Text(
+                      "${weather.precipitation} %",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 185),
+                    Transform.rotate(
+                      angle:
+                          (weather.wind_direction_10m * 3.14 / 180) -
+                          (90 * 3.14 / 180),
+                      child: Image.asset("assets/images/arrow.png", width: 30),
+                    ),
+                  ],
+                ),
               ],
             ),
-
-            Row(
-              children: [
-                SizedBox(width: 15,),
-                Text("${weather.apparent_temperature}°C", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                SizedBox(width: 174,),
-                Text("${weather.wind_speed_10m} m/s", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
-              ],
-            ),
-            SizedBox(height: 30,),
-            Divider(thickness: 3, color: Colors.black,indent: 15, endIndent: 15,),
-
-
-            Row(
-              children: [
-                SizedBox(width: 15,),
-                Text("Precipitation Probability", style: TextStyle(fontSize: 20),),
-                SizedBox(width: 18,),
-                Text("Wind Direction", style: TextStyle(fontSize: 20),)
-              ],
-            ),
-            Row(
-              children: [
-                SizedBox(width: 15,),
-                Text("${weather.precipitation} %", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                SizedBox(width: 185,),
-                Transform.rotate(angle: (weather.wind_direction_10m*3.14/180)-(90*3.14/180), child: Image.asset("assets/images/arrow.png", width: 30,),),
-                
-              ],
-            ),
-
-
           ],
         ),
       );
@@ -130,7 +175,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 25),
+          SizedBox(height: 75),
           Row(children: [textField(), searchButton()]),
         ],
       ),

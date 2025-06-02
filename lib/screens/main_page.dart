@@ -171,7 +171,7 @@ class _MainPageState extends State<MainPage> {
               currentIndex == 0
                   ? "assets/images/home2.png"
                   : "assets/images/home1.png",
-              width: 100,
+              width: 60,
             ),
           ),
           BottomNavigationBarItem(
@@ -180,7 +180,7 @@ class _MainPageState extends State<MainPage> {
               currentIndex == 1
                   ? "assets/images/hourly2.png"
                   : "assets/images/hourly1.png",
-              width: 100,
+              width: 60,
             ),
           ),
           BottomNavigationBarItem(
@@ -189,7 +189,7 @@ class _MainPageState extends State<MainPage> {
               currentIndex == 2
                   ? "assets/images/daily2.png"
                   : "assets/images/daily1.png",
-              width: 100,
+              width: 60,
             ),
           ),
         ],
