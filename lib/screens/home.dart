@@ -4,7 +4,8 @@ import 'package:weather_app/models/current_weather.dart';
 class Home extends StatefulWidget {
   final CurrentWeather? currentWeather;
   final Function(String) onSearch;
-  const Home({super.key, required this.onSearch, this.currentWeather});
+  final String? city;
+  const Home({super.key, required this.onSearch, this.currentWeather, this.city});
 
   @override
   State<Home> createState() => _HomeState();
@@ -68,13 +69,24 @@ class _HomeState extends State<Home> {
         body: Stack(
           children: [
             Positioned.fill(
-              child: Image.asset("assets/images/background.png",fit: BoxFit.cover,)),
+              child: Image.asset(
+                "assets/images/background.png",
+                fit: BoxFit.cover,
+              ),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 35),
                 Row(children: [textField(), searchButton()]),
-                SizedBox(height: 40),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 20,),
+                    Text(widget.city! , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
+                  ],
+                ),
+                SizedBox(height: 20,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -196,7 +208,7 @@ class _HomeState extends State<Home> {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 3),
           borderRadius: BorderRadius.circular(10),
-          color: Color(0xff017AFE ),
+          color: Color(0xff017AFE),
         ),
         child: Center(child: Text("Search", style: TextStyle(fontSize: 25))),
       ),
@@ -213,7 +225,7 @@ class _HomeState extends State<Home> {
           controller: _controller,
           decoration: InputDecoration(
             filled: true,
-            fillColor: Color(0xff017AFE ),
+            fillColor: Color(0xff017AFE),
             labelText: "Search City",
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 3),

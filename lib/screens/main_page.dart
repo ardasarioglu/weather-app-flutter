@@ -20,6 +20,7 @@ class _MainPageState extends State<MainPage> {
   CurrentWeather? currentWeather;
   List<DailyWeather>? dailyWeathers;
   List<HourlyWeather>? hourlyWeathers;
+  String? cityName;
 
   void func(String city) async {
     final data = await WeatherService().getLocation(city);
@@ -27,6 +28,7 @@ class _MainPageState extends State<MainPage> {
       currentWeather = data["currentWeather"];
       dailyWeathers = data["dailyWeathers"];
       hourlyWeathers = data["hourlyWeathers"];
+      cityName = data["city"];
     });
   }
 
@@ -43,6 +45,7 @@ class _MainPageState extends State<MainPage> {
         currentWeather = data["currentWeather"];
         dailyWeathers = data["dailyWeathers"];
         hourlyWeathers = data["hourlyWeathers"];
+        cityName = data["city"];
       });
     }
   }
@@ -68,7 +71,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      Home(onSearch: func, currentWeather: currentWeather),
+      Home(onSearch: func, currentWeather: currentWeather, city: cityName,),
       Hourly(hourlyWeathers: hourlyWeathers ?? []),
       Daily(dailyWeathers: dailyWeathers ?? []),
     ];
@@ -150,7 +153,7 @@ class _MainPageState extends State<MainPage> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor:  Color(0xff9BE9FE),
+        backgroundColor: Color(0xff9BE9FE),
         showSelectedLabels: false,
         showUnselectedLabels: false,
         currentIndex: currentIndex,

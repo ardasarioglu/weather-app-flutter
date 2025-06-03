@@ -1,11 +1,33 @@
 import 'package:dio/dio.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:weather_app/models/current_weather.dart';
 import 'package:weather_app/models/daily_weather.dart';
 import 'package:weather_app/models/hourly_weather.dart';
 
 class WeatherService {
-  Future<Map<String, dynamic>> getLocation2(double latitude, double longitude) async {
+  Future<String?> getCity(double latitude, double longitude) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      latitude,
+      longitude,
+    );
 
+    if (placemarks.isNotEmpty) {
+      Placemark place = placemarks[0];
+
+      if (place.locality == "") {
+        return place.administrativeArea.toString();
+      }
+
+      return place.locality;
+    }
+
+    return null;
+  }
+
+  Future<Map<String, dynamic>> getLocation2(
+    double latitude,
+    double longitude,
+  ) async {
     CurrentWeather currentWeather;
     List<DailyWeather> dailyWeathers = [];
     List<HourlyWeather> hourlyWeathers = [];
@@ -21,6 +43,8 @@ class WeatherService {
     var dataCurrent = data["current"];
     var dataHourly = data["hourly"];
     var dataDaily = data["daily"];
+
+    String? city = await getCity(latitude, longitude);
 
     currentWeather = CurrentWeather(
       dataCurrent["temperature_2m"],
@@ -66,8 +90,8 @@ class WeatherService {
       "currentWeather": currentWeather,
       "dailyWeathers": dailyWeathers,
       "hourlyWeathers": hourlyWeathers,
+      "city": city,
     };
-
   }
 
   Future<Map<String, dynamic>> getLocation(String city) async {
@@ -94,6 +118,8 @@ class WeatherService {
     var dataHourly = data["hourly"];
     var dataDaily = data["daily"];
 
+    String? cityName = await getCity(latitude, longitude);
+
     currentWeather = CurrentWeather(
       dataCurrent["temperature_2m"],
       dataCurrent["weather_code"],
@@ -138,6 +164,7 @@ class WeatherService {
       "currentWeather": currentWeather,
       "dailyWeathers": dailyWeathers,
       "hourlyWeathers": hourlyWeathers,
+      "city": cityName,
     };
   }
 }
