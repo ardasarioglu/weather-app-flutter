@@ -197,7 +197,7 @@ class _HourlyState extends State<Hourly> {
                           children: [
                             ExpansionTile(
                               shape: Border(),
-                              title: Text("$index:00"),
+                              title: Text("$index:00 | ${widget.hourlyWeathers![index].temperature_2m} °C"),
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -288,7 +288,7 @@ class _HourlyState extends State<Hourly> {
                           children: [
                             ExpansionTile(
                               shape: Border(),
-                              title: Text("${index-24}:00"),
+                              title: Text("${index-24}:00 | ${widget.hourlyWeathers![index].temperature_2m} °C"),
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -375,7 +375,7 @@ class _HourlyState extends State<Hourly> {
                           children: [
                             ExpansionTile(
                               shape: Border(),
-                              title: Text("${index-48}:00"),
+                              title: Text("${index-48}:00 | ${widget.hourlyWeathers![index].temperature_2m} °C"),
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,

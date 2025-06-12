@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/current_weather.dart';
+import 'package:weather_app/services/json_service.dart';
 
 class Home extends StatefulWidget {
   final CurrentWeather? currentWeather;
   final Function(String) onSearch;
   final String? city;
-  const Home({super.key, required this.onSearch, this.currentWeather, this.city});
+  const Home({
+    super.key,
+    required this.onSearch,
+    this.currentWeather,
+    this.city,
+  });
 
   @override
   State<Home> createState() => _HomeState();
@@ -60,11 +66,25 @@ class _HomeState extends State<Home> {
     return "Unknown Weather";
   }
 
+  void writeToJson(Map<String, dynamic> data) async {
+    final jsonService = JsonService();
+    await jsonService.writeJson(data);
+  }
+
+  Future<String> readJson() async {
+    final jsonService = JsonService();
+    Map<String, dynamic> data = await jsonService.readJson();
+    return data["city"];
+  }
+
   @override
   Widget build(BuildContext context) {
     var weather = widget.currentWeather;
 
     if (weather != null) {
+      writeToJson({"city": widget.city});
+      
+      
       return Scaffold(
         body: Stack(
           children: [
@@ -82,11 +102,17 @@ class _HomeState extends State<Home> {
                 SizedBox(height: 20),
                 Row(
                   children: [
-                    SizedBox(width: 20,),
-                    Text(widget.city! , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
+                    SizedBox(width: 20),
+                    Text(
+                      widget.city!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

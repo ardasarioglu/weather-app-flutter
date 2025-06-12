@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:weather_app/models/current_weather.dart';
 import 'package:weather_app/models/daily_weather.dart';
 import 'package:weather_app/models/hourly_weather.dart';
 import 'package:weather_app/screens/daily.dart';
 import 'package:weather_app/screens/home.dart';
 import 'package:weather_app/screens/hourly.dart';
+import 'package:weather_app/services/json_service.dart';
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/services/weather_service.dart';
 
@@ -22,8 +24,18 @@ class _MainPageState extends State<MainPage> {
   List<HourlyWeather>? hourlyWeathers;
   String? cityName;
 
+  Future<String?> getLastCity() async {
+    final jsonService = JsonService();
+    Map<String, dynamic> data = await jsonService.readJson();
+    if (data["city"] == null || data.isEmpty) {
+      return null;
+    }
+    return data["city"];
+  }
+
   void func(String city) async {
     final data = await WeatherService().getLocation(city);
+
     setState(() {
       currentWeather = data["currentWeather"];
       dailyWeathers = data["dailyWeathers"];
@@ -34,8 +46,10 @@ class _MainPageState extends State<MainPage> {
 
   void func2() async {
     Map<String, dynamic>? myLocation = await LocationService().getLocation();
-
+    String? lastCity = await getLastCity();
     if (myLocation != null) {
+      debugPrint("-------------------------");
+      debugPrint("\n\n\nlokasyon var");
       final data = await WeatherService().getLocation2(
         myLocation["latitude"],
         myLocation["longitude"],
@@ -47,7 +61,15 @@ class _MainPageState extends State<MainPage> {
         hourlyWeathers = data["hourlyWeathers"];
         cityName = data["city"];
       });
-    }
+    } else if (lastCity != null) {
+      final data = await WeatherService().getLocation(lastCity);
+      setState(() {
+        currentWeather = data["currentWeather"];
+        dailyWeathers = data["dailyWeathers"];
+        hourlyWeathers = data["hourlyWeathers"];
+        cityName = data["city"];
+      });
+    } 
   }
 
   late List<Widget> pages;
@@ -71,7 +93,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      Home(onSearch: func, currentWeather: currentWeather, city: cityName,),
+      Home(onSearch: func, currentWeather: currentWeather, city: cityName),
       Hourly(hourlyWeathers: hourlyWeathers ?? []),
       Daily(dailyWeathers: dailyWeathers ?? []),
     ];

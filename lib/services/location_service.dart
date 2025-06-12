@@ -5,23 +5,24 @@ class LocationService {
     final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
     if (!serviceEnabled) {
-      Future.error("Your location service is disabled.");
+      return null;
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
 
-    if (permission == LocationPermission.denied) {
-      await Geolocator.requestPermission();
-    }
-
-    final Position position = await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
-    );
-
-    if (!serviceEnabled) {
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
       return null;
     }
 
-    return {"latitude": position.latitude, "longitude": position.longitude};
+    try {
+      final Position position = await Geolocator.getCurrentPosition(
+        locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
+      );
+
+      return {"latitude": position.latitude, "longitude": position.longitude};
+    } catch (e) {
+      return null;
+    }
   }
 }
